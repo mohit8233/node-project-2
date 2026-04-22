@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/students";
+const BASE_URL = "https://employeedata-2.onrender.com/api/students";
 
 // GET
 export const getStudent = async (params = {}) => {
