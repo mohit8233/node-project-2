@@ -1,4 +1,4 @@
-const BASE_URL=  "http://localhost:8080/api/students"
+const BASE_URL=  "https://node-project-2-iqkx.onrender.com/api/students"
 
 import axios from 'axios' 
 export const getStudent = async(params = {})=>{
