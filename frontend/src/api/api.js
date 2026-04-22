@@ -12,7 +12,7 @@ export const createStudent = (data)=>{
 }
 
 export const updateStudent = (id, data) => {
-  return axios.patch(`${BASE_URL}/update/${id}`, data);
+  return axios.patch(`${BASE_URL}/updateStudent/${id}`, data);
 };
 
 export const deleteStudent = (id) => {
