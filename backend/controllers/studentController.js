@@ -16,7 +16,7 @@ export const createStudent = async (req, res) => {
         // email check 
         const checkEmail = await Student.findOne({ email });
         if (checkEmail) {
-            res.json({
+          return  res.json({
                 status: false,
                 message: "Email already Exist"
             })
@@ -223,7 +223,9 @@ export const deleteStudent = async (req, res) => {
       });
     }
 
-    const deletedStudent = await Student.findByIdAndDelete(id);
+    const deletedStudent = await Student.findByIdAndDelete(id,req.body,{
+           new: true
+    });
 
     return res.status(200).json({
       status: true,

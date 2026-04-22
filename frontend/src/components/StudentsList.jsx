@@ -2,7 +2,7 @@ import { useState } from "react";
 import { deleteStudent, getStudent } from "../api/api";
 import { useEffect } from "react";
 
-export const StudentList = ({ refresh, setEditStudent, studentData }) => {
+export const StudentList = ({ refresh, setEditStudent, refreshData }) => {
   const [student, setStudent] = useState([]);
   const [totalPage, setTotalPage] = useState(1);
   const [params, setParams] = useState({
@@ -17,9 +17,9 @@ export const StudentList = ({ refresh, setEditStudent, studentData }) => {
     try {
       const res = await getStudent(params);
       setStudent(res.data || res.students || []);
-      setTotalPage(res.pagination?.totalPage || 1);
+      setTotalPage(res.pagination?.totalPages || 1);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 
@@ -27,21 +27,23 @@ export const StudentList = ({ refresh, setEditStudent, studentData }) => {
     fetchStudent();
   }, [params, refresh]);
 
-  const handleDelete = (id) => {
-    deleteStudent(id)
-      .then((deleteStudentApi) => {
-        if (deleteStudentApi.status) {
-          alert(deleteStudentApi.data.message || deleteStudentApi.status);
-        } else {
-          alert(deleteStudentApi.message);
-        }
-        studentData();
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(error.response?.data?.message || "Student delete Failed");
-      });
-  };
+const handleDelete = (id) => {
+  deleteStudent(id)
+    .then((deleteStudentApi) => {
+      console.log("delete response:", deleteStudentApi);
+
+      if (deleteStudentApi.data.status) {
+        alert(deleteStudentApi.data.message || deleteStudentApi.status);
+        refreshData();
+      } else {
+        alert(deleteStudentApi.data.message);
+      }
+    })
+    .catch((error) => {
+      console.log("delete error:", error);
+      alert(error.response?.data?.message || error.message || "Student delete Failed");
+    });
+};
 
   return (
     <div className="w-full px-4 py-8 bg-gray-100 min-h-screen">
@@ -50,7 +52,7 @@ export const StudentList = ({ refresh, setEditStudent, studentData }) => {
           Student Data
         </h1>
 
-        {/* Search and Filter */}
+        
         <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-10">
           <input
             type="text"
@@ -85,60 +87,68 @@ export const StudentList = ({ refresh, setEditStudent, studentData }) => {
           </select>
         </div>
 
-        {/* Student Cards */}
-       <div className="flex flex-wrap gap-6 justify-center">
-  {student.map((std) => (
-    <div
-      key={std._id}
-      className="w-full sm:w-[320px] bg-white border border-gray-200 rounded-2xl p-5 shadow-md hover:shadow-xl transition duration-300"
-    >
-      {/* Top small line (premium feel but simple) */}
-      <div className="h-1 w-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded mb-3"></div>
+        
+      
+<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+  {student.length > 0 ? (
+    student.map((std) => (
+      <div
+        key={std._id}
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-2xl"
+      >
+        <div className="p-5 space-y-3">
+          <p className="flex items-center justify-between border-b border-slate-100 pb-2 text-sm">
+            <span className="font-semibold text-slate-600">Name</span>
+            <span className="text-slate-800">{std.name}</span>
+          </p>
 
-      <p className="text-gray-700 mb-2">
-        <span className="font-semibold text-gray-800">Name:</span>{" "}
-        {std.name}
-      </p>
+          <p className="flex items-center justify-between border-b border-slate-100 pb-2 text-sm">
+            <span className="font-semibold text-slate-600">Course</span>
+            <span className="text-slate-800">{std.course}</span>
+          </p>
 
-      <p className="text-gray-700 mb-2">
-        <span className="font-semibold text-gray-800">Course:</span>{" "}
-        {std.course}
-      </p>
+          <p className="flex items-center justify-between border-b border-slate-100 pb-2 text-sm">
+            <span className="font-semibold text-slate-600">Email</span>
+            <span className="text-slate-800">{std.email}</span>
+          </p>
 
-      <p className="text-gray-700 mb-2">
-        <span className="font-semibold text-gray-800">Email:</span>{" "}
-        {std.email}
-      </p>
+          <p className="flex items-center justify-between border-b border-slate-100 pb-2 text-sm">
+            <span className="font-semibold text-slate-600">Age</span>
+            <span className="text-slate-800">{std.age}</span>
+          </p>
 
-      <p className="text-gray-700 mb-2">
-        <span className="font-semibold text-gray-800">Age:</span>{" "}
-        {std.age}
-      </p>
+          <p className="flex items-center justify-between text-sm">
+            <span className="font-semibold text-slate-600">Fees</span>
+            <span className="rounded-full bg-green-100 px-3 py-1 font-semibold text-green-700">
+              ₹{std.fees}
+            </span>
+          </p>
 
-      <p className="text-gray-700 mb-4">
-        <span className="font-semibold text-gray-800">Fees:</span>{" "}
-        ₹{std.fees}
-      </p>
+          <div className="mt-5 flex gap-3">
+            <button
+              type="button"
+              onClick={() => setEditStudent(std)}
+              className="flex-1 rounded-xl bg-amber-500 px-4 py-2.5 font-semibold text-white shadow hover:bg-amber-600 transition"
+            >
+              Edit
+            </button>
 
-      <div className="flex gap-3">
-        <button
-          type="button"
-          onClick={() => setEditStudent(std)}
-          className="flex-1 bg-yellow-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-yellow-600 transition"
-        >
-          Edit
-        </button>
-
-        <button
-          type="button"
-          onClick={() => handleDelete(std._id)}
-          className="flex-1 bg-red-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition"
-        >
-          Delete
-        </button>
+            <button
+              type="button"
+              onClick={() => handleDelete(std._id)}
+              className="flex-1 rounded-xl bg-red-500 px-4 py-2.5 font-semibold text-white shadow hover:bg-red-600 transition"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
+    ))
+  ) : (
+    <div className="col-span-full rounded-2xl bg-white p-10 text-center text-slate-500 shadow-md">
+      No students found
     </div>
-  ))}
+  )}
 </div>
 
         {/* Pagination */}

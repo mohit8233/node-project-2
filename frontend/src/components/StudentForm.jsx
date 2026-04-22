@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import { createStudent, updateStudent } from "../api/api";
 
-export const StudentForm = ({ StudentData, editStudent, setEditStudent }) => {
+export const StudentForm = ({ refreshData, editStudent, setEditStudent }) => {
     const [obj, setObj] = useState({
         name: "",
         email: "",
@@ -40,7 +40,7 @@ export const StudentForm = ({ StudentData, editStudent, setEditStudent }) => {
         if (editStudent) {
             updateStudent(editStudent._id, obj)
                 .then((updateStudentApi) => {
-                    if (updateStudentApi.status) {
+                    if (updateStudentApi.data.status) {
                         alert(updateStudentApi.data.message || updateStudentApi.status)
                     } else {
                         alert(updateStudentApi.message)
@@ -54,7 +54,7 @@ export const StudentForm = ({ StudentData, editStudent, setEditStudent }) => {
                         fees: ""
                     })
                     setEditStudent(null);
-                    StudentData()
+                    refreshData()
                 })
                 .catch((error) => {
                     console.log(error);
@@ -63,7 +63,7 @@ export const StudentForm = ({ StudentData, editStudent, setEditStudent }) => {
         } else {
             createStudent(obj)
                 .then((createStudentApi) => {
-                    if (createStudentApi.status) {
+                    if (createStudentApi.data.status) {
                         alert(createStudentApi.data.message || createStudentApi.status)
                     } else {
                         alert(createStudentApi.message)
@@ -76,7 +76,7 @@ export const StudentForm = ({ StudentData, editStudent, setEditStudent }) => {
                         course: "",
                         fees: ""
                     })
-                    StudentData();
+                    refreshData();
                 })
                 .catch((error) => {
                     console.log(error);

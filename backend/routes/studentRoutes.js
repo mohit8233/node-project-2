@@ -7,5 +7,6 @@ export const studentRouter = Router();
 studentRouter.post("/create", createStudent);
 studentRouter.post("/bulkUpload", bulkUploadStudent);
 studentRouter.get("/getStudent", getAllStudent);
+studentRouter.put("/updateFull/:id",updateStudent);
 studentRouter.patch("/updateStudent/:id", updateStudentPartially);
-studentRouter.delete("/delete/:id", deleteStudent);
+studentRouter.delete("/deleteStudent/:id", deleteStudent);

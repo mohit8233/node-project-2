@@ -4,11 +4,11 @@ import { StudentForm } from './components/StudentForm'
 import { StudentList } from './components/StudentsList'
 
 function App() {
-  const [refStudent, setRefStudent] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [editStudent, setEditStudent] = useState(null);
 
-  const studentData = () => {
-    setRefStudent(!refStudent);
+  const refreshData = () => {
+    setRefresh(!refresh);
   };
 
   return (
@@ -23,7 +23,7 @@ function App() {
         <div className="space-y-8">
           <div className="bg-white rounded-2xl shadow-lg p-4 md:p-6">
             <StudentForm
-              StudentData={studentData}
+              refreshData={refreshData}
               editStudent={editStudent}
               setEditStudent={setEditStudent}
             />
@@ -31,9 +31,9 @@ function App() {
 
           <div className="bg-white rounded-2xl shadow-lg p-4 md:p-6">
             <StudentList
-              refStudent={refStudent}
+              refresh={refresh}
               setEditStudent={setEditStudent}
-              studentData={studentData}
+              refreshData={refreshData}
             />
           </div>
         </div>
