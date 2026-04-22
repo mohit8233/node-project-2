@@ -2,7 +2,7 @@ import { useState } from "react";
 import { deleteStudent, getStudent } from "../api/api";
 import { useEffect } from "react";
 
-export const StudentList = ({ students, setEditStudent, studentData }) => {
+export const StudentList = ({ refresh, setEditStudent, studentData }) => {
   const [student, setStudent] = useState([]);
   const [totalPage, setTotalPage] = useState(1);
   const [params, setParams] = useState({
@@ -25,7 +25,7 @@ export const StudentList = ({ students, setEditStudent, studentData }) => {
 
   useEffect(() => {
     fetchStudent();
-  }, [params, students]);
+  }, [params, refresh]);
 
   const handleDelete = (id) => {
     deleteStudent(id)

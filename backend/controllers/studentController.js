@@ -210,33 +210,30 @@ export const updateStudentPartially = async(req,res)=>{
 
 // deleteStudent
 
+export const deleteStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-export const deleteStudent = async (req,res)=>{
-    try {
-        const {id} = req.params;
-        const student = await Student.findById(id);
-         if(!student){
-         return res.status(404).json({
-            status: false,
-                message: "Student not Found"
-         })
-        }
+    const student = await Student.findById(id);
 
-        const  deleteStudent = await Student.findByIdAndDelete(id, req.body,{
-            new: true
-        })
-        
-         return res.status(201).json({
-            status: true,
-            message: "Student deleted Successfully",
-            data: deleteStudent
-        })
-
-        
-    } catch (error) {
-         res.status(500).json({
-            status: false,
-            message: `Error in deleteStudent ${error.message}`,
-        });
+    if (!student) {
+      return res.status(404).json({
+        status: false,
+        message: "Student not Exist",
+      });
     }
-}
+
+    const deletedStudent = await Student.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      status: true,
+      message: "Student Deleted",
+      data: deletedStudent,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: `Error found in DeleteAPI ${error.message}`,
+    });
+  }
+};

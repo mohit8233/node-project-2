@@ -20,15 +20,7 @@ export const StudentForm = ({ StudentData, editStudent, setEditStudent }) => {
                 course: editStudent.course || "",
                 fees: editStudent.fees || ""
             })
-        } else {
-            setObj({
-                name: "",
-                email: "",
-                age: "",
-                course: "",
-                fees: ""
-            })
-        }
+        } 
     }, [editStudent]);
 
     const handleChange = (e) => {
