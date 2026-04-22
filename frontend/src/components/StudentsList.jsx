@@ -86,61 +86,60 @@ export const StudentList = ({ students, setEditStudent, studentData }) => {
         </div>
 
         {/* Student Cards */}
-        <div className="flex flex-wrap gap-6 justify-center">
-          {student.length > 0 ? (
-            student.map((std) => (
-              <div
-                key={std._id}
-                className="w-full sm:w-[320px] bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition"
-              >
-                <p className="text-gray-700 mb-2">
-                  <span className="font-semibold text-gray-800">Name:</span>{" "}
-                  {std.name}
-                </p>
+       <div className="flex flex-wrap gap-6 justify-center">
+  {student.map((std) => (
+    <div
+      key={std._id}
+      className="w-full sm:w-[320px] bg-white border border-gray-200 rounded-2xl p-5 shadow-md hover:shadow-xl transition duration-300"
+    >
+      {/* Top small line (premium feel but simple) */}
+      <div className="h-1 w-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded mb-3"></div>
 
-                <p className="text-gray-700 mb-2">
-                  <span className="font-semibold text-gray-800">Course:</span>{" "}
-                  {std.course}
-                </p>
+      <p className="text-gray-700 mb-2">
+        <span className="font-semibold text-gray-800">Name:</span>{" "}
+        {std.name}
+      </p>
 
-                <p className="text-gray-700 mb-2">
-                  <span className="font-semibold text-gray-800">Email:</span>{" "}
-                  {std.email}
-                </p>
+      <p className="text-gray-700 mb-2">
+        <span className="font-semibold text-gray-800">Course:</span>{" "}
+        {std.course}
+      </p>
 
-                <p className="text-gray-700 mb-2">
-                  <span className="font-semibold text-gray-800">Age:</span>{" "}
-                  {std.age}
-                </p>
+      <p className="text-gray-700 mb-2">
+        <span className="font-semibold text-gray-800">Email:</span>{" "}
+        {std.email}
+      </p>
 
-                <p className="text-gray-700 mb-4">
-                  <span className="font-semibold text-gray-800">Fees:</span>{" "}
-                  {std.fees}
-                </p>
+      <p className="text-gray-700 mb-2">
+        <span className="font-semibold text-gray-800">Age:</span>{" "}
+        {std.age}
+      </p>
 
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setEditStudent(std)}
-                    className="flex-1 bg-yellow-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-yellow-600 transition"
-                  >
-                    Edit
-                  </button>
+      <p className="text-gray-700 mb-4">
+        <span className="font-semibold text-gray-800">Fees:</span>{" "}
+        ₹{std.fees}
+      </p>
 
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(std._id)}
-                    className="flex-1 bg-red-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-center text-gray-500 w-full">No students found</p>
-          )}
-        </div>
+      <div className="flex gap-3">
+        <button
+          type="button"
+          onClick={() => setEditStudent(std)}
+          className="flex-1 bg-yellow-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-yellow-600 transition"
+        >
+          Edit
+        </button>
+
+        <button
+          type="button"
+          onClick={() => handleDelete(std._id)}
+          className="flex-1 bg-red-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
 
         {/* Pagination */}
         <div className="flex justify-center items-center gap-4 mt-8">
